@@ -24,30 +24,13 @@ Route::get('/', function () {
 });
 
 
-// create website
-Route::get("/create-website", function(){
-    
-    //use Hyn\Tenancy\Models\Website;
-    //use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-
-    $website = new Website;
-    app(WebsiteRepository::class)->create($website);
-    dd($website->uuid);
-
-    // 4570613b0df94c8299129834c8013877
-
-});
-
-// Connect Hostname
-Route::get("/connect-site/{site?}", function($site){
+# connect domain
+Route::get("{site}/connect", function($site){
     
     //use Hyn\Tenancy\Models\Hostname;
     //use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
 
-    if(!isset($site)) $site = 'tenant1';
-
-    $fqdn = $site.'.demo.app';
-    $hostname = Hostname::where('fqdn', $fqdn)->first();
+    $hostname = Hostname::where('fqdn', $site)->first();
 
     if(!$hostname) {
 
@@ -57,7 +40,7 @@ Route::get("/connect-site/{site?}", function($site){
 
         # attach host
         $hostname = new Hostname;
-        $hostname->fqdn = $fqdn;
+        $hostname->fqdn = $site;
         $hostname = app(HostnameRepository::class)->create($hostname);
         app(HostnameRepository::class)->attach($hostname, $website);
     } else {
@@ -69,14 +52,36 @@ Route::get("/connect-site/{site?}", function($site){
 
 });
 
+
+# Tenant Route
+Route::middleware('tenancy')->prefix("{site}")->group(function(){
+
+    # crate post
+    Route::get('posts/create', function($site){
+
+        $post = new \App\Post();
+        $faker = Faker\Factory::create();
+        $post->title = $faker->sentence(7);
+        $post->content = $faker->text(100);
+        $post->save();
+    
+        dd($post->toArray());
+    });
+
+    # get posts
+    Route::get('posts', function(){
+
+        $posts = \App\Post::all();
+        dd($posts->toArray());
+    
+    });
+});
+
 // switch tenant
-Route::get('/switch-site/{site?}', function($site){
+/* Route::get('{site}/switch', function($site){
 
     //use Hyn\Tenancy\Environment;
-    if(!isset($site)) $site = 'tenant1';
-    
-    $fqdn = $site.'.demo.app';
-    $hostname = Hostname::where('fqdn', $fqdn)->first();
+    $hostname = Hostname::where('fqdn', $site)->first();
 
     if(!$hostname) abort(403);
 
@@ -91,50 +96,7 @@ Route::get('/switch-site/{site?}', function($site){
         $tenancy->tenant(); // resolves $website
         $tenancy->identifyHostname(); // resets resolving $hostname by using the Request 
     */
+    /*dd($tenancy);
 
-    // create posts
-    /* $post = new \App\Post();
-    $post->title = "Demo title - " . $site;
-    $post->content = "demo content";
-    $post->save(); */
-
-    $posts = \App\Post::all()->toArray();
-    dd($posts);
-
-});
-
-
-Route::get('{fqdn}/posts/create', function($fqdn){
-    $hostname = Hostname::where('fqdn', $fqdn)->first();
-
-    if(!$hostname) abort(403);
-
-    $website = Website::find($hostname->website_id);
-    $tenancy = app(Environment::class);
-    $tenancy->hostname($hostname);
-    $tenancy->tenant($website); // switches the tenant and reconfigures the app
-
-    $post = new \App\Post();
-    $faker = Faker\Factory::create();
-    $post->title = $faker->sentence(7);
-    $post->content = $faker->text(100);
-    $post->save();
-
-    dd($post->toArray());
-});
-
-Route::get('{fqdn}/posts', function($fqdn){
-    $hostname = Hostname::where('fqdn', $fqdn)->first();
-
-    if(!$hostname) abort(403);
-
-    $website = Website::find($hostname->website_id);
-    $tenancy = app(Environment::class);
-    $tenancy->hostname($hostname);
-    $tenancy->tenant($website); // switches the tenant and reconfigures the app
-
-    $posts = \App\Post::all();
-    dd($posts->toArray());
-
-});
+}); */
 
