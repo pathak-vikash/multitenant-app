@@ -1,5 +1,4 @@
 # Multi-Tenancy Architecture in Laravel
---------------------------------------------
 
 ## Perquisite
 
@@ -50,3 +49,10 @@ php artisan tenancy -h
 
 ### Create Post
 [http://localhost:8000/domain1.demo.app/posts/create](http://localhost:8000/domain1.demo.app/posts/create)
+
+
+
+## Links
+
+[Package Documentation](https://tenancy.dev/docs/hyn/5.3/requirements)
+[Package Source](https://github.com/tenancy/multi-tenant)
