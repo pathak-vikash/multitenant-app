@@ -51,6 +51,11 @@ php artisan tenancy -h
 [http://localhost:8000/domain1.demo.app/posts/create](http://localhost:8000/domain1.demo.app/posts/create)
 
 
+## Virtual Domain
+[http://demo1.localtest.me:8000/](http://demo1.localtest.me:8000/)
+
+more...
+http://www.fidian.com/programming/public-dns-pointing-to-localhost
 
 ## Links
 
