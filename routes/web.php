@@ -76,13 +76,6 @@ Route::middleware('tenancy')->prefix("{site}")->group(function(){
     Route::get('posts', function(){
 
         $posts = \App\Post::with('author')->get();
-
-        foreach($posts as $post){
-
-            if($post->author){
-                dd($post->author);
-            }
-        }
         dd($posts->toArray());
     
     });
