@@ -61,8 +61,12 @@ Route::middleware('tenancy')->prefix("{site}")->group(function(){
 
         $post = new \App\Post();
         $faker = Faker\Factory::create();
+
+        $author =  \App\Author::orderBy(\DB::raw('RAND()'))->first();
+
         $post->title = $faker->sentence(7);
         $post->content = $faker->text(100);
+        $post->author_id = $author->id;
         $post->save();
     
         dd($post->toArray());
@@ -71,7 +75,14 @@ Route::middleware('tenancy')->prefix("{site}")->group(function(){
     # get posts
     Route::get('posts', function(){
 
-        $posts = \App\Post::all();
+        $posts = \App\Post::with('author')->get();
+
+        foreach($posts as $post){
+
+            if($post->author){
+                dd($post->author);
+            }
+        }
         dd($posts->toArray());
     
     });
