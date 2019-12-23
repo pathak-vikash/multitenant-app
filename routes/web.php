@@ -52,33 +52,14 @@ Route::get("{site}/connect", function($site){
 
 });
 
-
 # Tenant Route
 Route::middleware('tenancy')->prefix("{site}")->group(function(){
 
     # crate post
-    Route::get('posts/create', function($site){
-
-        $post = new \App\Post();
-        $faker = Faker\Factory::create();
-
-        $author =  \App\Author::orderBy(\DB::raw('RAND()'))->first();
-
-        $post->title = $faker->sentence(7);
-        $post->content = $faker->text(100);
-        $post->author_id = $author->id;
-        $post->save();
-    
-        dd($post->toArray());
-    });
+    Route::get('posts/create', "PostsController@create");
 
     # get posts
-    Route::get('posts', function(){
-
-        $posts = \App\Post::with('author')->get();
-        dd($posts->toArray());
-    
-    });
+    Route::get('posts', "PostsController@index");
 });
 
 // switch tenant
