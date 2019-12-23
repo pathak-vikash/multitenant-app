@@ -43,9 +43,30 @@ php artisan tenancy:migrate
 ```
 php artisan tenancy -h
 ```
-
+---------------------------------------------
 ## Demo
 
+### Example with domain | subdomain - Automatically Environment Detection
+When you connect and run your application with that domain | subdomain it will automatically detect & set the environment as per that. You don't need to define middleware in that case.
+
+
+#### Connect site
+http://localhost:8000/vcap.me/connect
+
+#### Create Posts for that domain
+http://vcap.me:8000/posts/create
+
+#### Get Posts
+http://vcap.me:8000/posts
+
+
+Note: Available virtualhosts pointed to 127.0.0.1 `vcap.me|localtest.me|beweb.com|yoogle.com|ortkut.com|feacebook.com`
+more...
+http://www.fidian.com/programming/public-dns-pointing-to-localhost
+
+
+
+### Example with Localhost
 ### Connect site
 [http://localhost:8000/domain1.demo.app/connect](http://localhost:8000/domain1.demo.app/connect)
 
@@ -56,28 +77,7 @@ php artisan tenancy -h
 ### Create Post
 [http://localhost:8000/domain1.demo.app/posts/create](http://localhost:8000/domain1.demo.app/posts/create)
 
-
-## Automatically Environment Detection
-When you connect and run your application with that domain | subdomain it will automatically detect & set the environment as per that. You don't need to define middleware in that case.
-
-Example
-
-```
-# Connect site
-http://localhost:8000/vcap.me/connect
-
-# Create Posts for that domain
-http://vcap.me:8000/posts/create
-
-# Get Posts
-http://vcap.me:8000/posts
-```
-
-Note: Available virtualhosts pointed to 127.0.0.1 `vcap.me|localtest.me|beweb.com|yoogle.com|ortkut.com|feacebook.com`
-more...
-http://www.fidian.com/programming/public-dns-pointing-to-localhost
-
-
+--------------------------------------------------
 ## Links
 
 [Package Documentation](https://tenancy.dev/docs/hyn/5.3/requirements)
