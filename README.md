@@ -50,13 +50,13 @@ php artisan tenancy -h
 When you connect and run your application with that domain | subdomain it will automatically detect & set the environment as per that. You don't need to define middleware in that case.
 
 
-#### Connect site
+##### Connect site
 http://localhost:8000/vcap.me/connect
 
-#### Create Posts for that domain
+##### Create Posts for that domain
 http://vcap.me:8000/posts/create
 
-#### Get Posts
+##### Get Posts
 http://vcap.me:8000/posts
 
 
@@ -67,14 +67,14 @@ http://www.fidian.com/programming/public-dns-pointing-to-localhost
 
 
 ### Example with Localhost
-### Connect site
+##### Connect site
 [http://localhost:8000/domain1.demo.app/connect](http://localhost:8000/domain1.demo.app/connect)
 
 
-### List Post
+##### List Post
 [http://localhost:8000/domain1.demo.app/posts](http://localhost:8000/domain1.demo.app/posts)
 
-### Create Post
+##### Create Post
 [http://localhost:8000/domain1.demo.app/posts/create](http://localhost:8000/domain1.demo.app/posts/create)
 
 --------------------------------------------------
