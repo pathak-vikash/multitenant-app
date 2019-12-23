@@ -24,6 +24,28 @@ Route::get('/', function () {
 });
 
 
+# domain based routes
+Route::pattern('domain', '(vcap.me|localtest.me|beweb.com|yoogle.com|ortkut.com|feacebook.com)');
+
+Route::group(['domain' => '{domain}'], function() {
+
+    Route::get('posts', "PostsController@index");
+    Route::get('posts/create', "PostsController@create");
+});
+/* 
+Route::domain("{account}.me")->group(function () {
+    # get posts
+    Route::get('posts', "PostsController@index");
+    Route::get('posts/create', "PostsController@create");
+});
+
+Route::domain("{account}.com")->group(function () {
+    # get posts
+    Route::get('posts', "PostsController@index");
+    Route::get('posts/create', "PostsController@create");
+}); */
+
+
 # connect domain
 Route::get("{site}/connect", "SitesController@connect");
 
