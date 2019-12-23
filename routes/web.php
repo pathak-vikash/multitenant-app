@@ -25,32 +25,10 @@ Route::get('/', function () {
 
 
 # connect domain
-Route::get("{site}/connect", function($site){
-    
-    //use Hyn\Tenancy\Models\Hostname;
-    //use Hyn\Tenancy\Contracts\Repositories\HostnameRepository;
+Route::get("{site}/connect", "SitesController@connect");
 
-    $hostname = Hostname::where('fqdn', $site)->first();
-
-    if(!$hostname) {
-
-        # create website
-        $website = new Website;
-        app(WebsiteRepository::class)->create($website);
-
-        # attach host
-        $hostname = new Hostname;
-        $hostname->fqdn = $site;
-        $hostname = app(HostnameRepository::class)->create($hostname);
-        app(HostnameRepository::class)->attach($hostname, $website);
-    } else {
-        $website = Website::find($hostname->website_id);
-    }
-    
-    
-    dd($website->hostnames); // Collection with $hostname
-
-});
+# switch tenant
+Route::get('{site}/switch', "SitesController@switch");
 
 # Tenant Route
 Route::middleware('tenancy')->prefix("{site}")->group(function(){
@@ -62,26 +40,5 @@ Route::middleware('tenancy')->prefix("{site}")->group(function(){
     Route::get('posts', "PostsController@index");
 });
 
-// switch tenant
-/* Route::get('{site}/switch', function($site){
 
-    //use Hyn\Tenancy\Environment;
-    $hostname = Hostname::where('fqdn', $site)->first();
-
-    if(!$hostname) abort(403);
-
-    $website = Website::find($hostname->website_id);
-    $tenancy = app(Environment::class);
-    $tenancy->hostname($hostname);
-    $tenancy->tenant($website); // switches the tenant and reconfigures the app
-
-    /*  
-        $tenancy->website(); // resolves $website
-        $tenancy->hostname(); // resolves $hostname as currently active hostname
-        $tenancy->tenant(); // resolves $website
-        $tenancy->identifyHostname(); // resets resolving $hostname by using the Request 
-    */
-    /*dd($tenancy);
-
-}); */
 
